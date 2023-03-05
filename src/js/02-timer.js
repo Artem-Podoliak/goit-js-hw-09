@@ -13,7 +13,6 @@ const rfs = {
   startTime: Date.now(),
   futureTime: null,
   intervalId: null,
-
   decrementValue: null,
 };
 
@@ -71,11 +70,10 @@ function antecedentsTimeMessage() {
 
 function timer() {
   rfs.decrementValue = rfs.selectDate - rfs.startTime;
-  if (rfs.decrementValue <= 0) {
-    clearInterval(rfs.intervalId);
-  }
-
   rfs.intervalId = setInterval(() => {
+    if (rfs.decrementValue <= 1000) {
+      clearInterval(rfs.intervalId);
+    }
     updateTime();
   }, 1000);
 }
