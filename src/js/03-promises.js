@@ -9,25 +9,25 @@ const refs = {
 
 refs.formEl.addEventListener('submit', event => {
   event.preventDefault();
-  const delay = refs.delayEl.value;
-  const step = refs.stepEl.value;
-  const amount = refs.amountEl.value;
+  let delay = Number(refs.delayEl.value);
+  const step = Number(refs.stepEl.value);
+  const amount = Number(refs.amountEl.value);
 
-  const promises = [];
-  for (let i = 0; i < amount; i++) {
-    const position = i + 1;
-    const thisDelay = delay + i * step;
-    const promise = createPromise(position, thisDelay);
-    promises.push(promise);
+  event.target.reset();
+  for (let index = 1; index <= amount; index++) {
+    createPromise(index, delay)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.success(
+          `✅ Fulfilled promise ${position} in ${delay}ms`
+        );
+      })
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
+      });
+    delay += step;
   }
-
-  Promise.all(promises)
-    .then(({ position, delay }) => {
-      Notiflix.Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
-    })
-    .catch(({ position, delay }) => {
-      Notiflix.Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-    });
 });
 
 function createPromise(position, delay) {
