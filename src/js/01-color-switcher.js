@@ -11,13 +11,13 @@ const BodyBgColor = {
       return;
     }
     this.isActive = true;
-    timerId = setInterval(() => {
+    BodyBgColor.timerId = setInterval(() => {
       bodyEl.style.backgroundColor = getRandomHexColor();
     }, 1000);
   },
 
   stopColor() {
-    clearInterval(timerId);
+    clearInterval(BodyBgColor.timerId);
     this.isActive = false;
   },
 };
